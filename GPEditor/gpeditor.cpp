@@ -79,7 +79,9 @@ bool GPEditor::InitOnLaunch()
 
     this->addDockWidget(Qt::LeftDockWidgetArea,_sceneViewer);
 
-    this->tabifyDockWidget(_sceneViewer,_projectViewer);
+    this->tabifyDockWidget(_projectViewer,_sceneViewer);
+
+    _projectViewer->raise();
 
     // init console
     GPConsole * _console = new GPConsole(this);
