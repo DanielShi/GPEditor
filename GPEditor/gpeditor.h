@@ -15,6 +15,16 @@ public:
     explicit GPEditor(QWidget *parent = 0);
     ~GPEditor();
 
+public slots:
+    void DoNewProject();
+
+    void DoOpenProject();
+
+    void DoCloseProject();
+
+    void DoSaveProject();
+
+
 protected:
     bool InitOnLaunch();
     

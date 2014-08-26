@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QFlags>
+#include <QFileDialog>
 #include "gpeditor.h"
 #include "ui_gpeditor.h"
 #include "gpprojectviewer.h"
@@ -26,6 +27,38 @@ GPEditor::~GPEditor()
     delete ui;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// define slots
+///////////////////////////////////////////////////////////////////////////////
+
+void GPEditor::DoNewProject()
+{
+    qDebug("do new project called");
+
+    QString _dirPath = QFileDialog::getExistingDirectory(this,tr("New Project"));
+
+    if( !_dirPath.isEmpty() )
+    {
+        qDebug(qPrintable(_dirPath));
+    }
+}
+
+void GPEditor::DoOpenProject()
+{
+    qDebug("do Open Project called");
+}
+
+void GPEditor::DoCloseProject()
+{
+    qDebug("do Close project called");
+}
+
+void GPEditor::DoSaveProject()
+{
+    qDebug("do save project called");
+}
+
+//////////////////////////////////////////////////////////////////////////////
 
 bool GPEditor::InitOnLaunch()
 {
