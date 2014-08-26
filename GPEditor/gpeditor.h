@@ -7,6 +7,8 @@ namespace Ui {
 class GPEditor;
 }
 
+class GPProject;
+
 class GPEditor : public QMainWindow
 {
     Q_OBJECT
@@ -30,6 +32,7 @@ protected:
     
 private:
     Ui::GPEditor *ui;
+    GPProject* m_project;
 };
 
 #endif // GPEDITOR_H

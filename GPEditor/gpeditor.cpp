@@ -9,10 +9,12 @@
 #include "gppropertyviewer.h"
 #include "gpsceneeditor.h"
 #include "gpgamepreviewer.h"
+#include "gpproject.h"
 
 GPEditor::GPEditor(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::GPEditor)
+    ui(new Ui::GPEditor),
+    m_project(NULL)
 {
     ui->setupUi(this);
 
@@ -25,6 +27,7 @@ GPEditor::GPEditor(QWidget *parent) :
 GPEditor::~GPEditor()
 {
     delete ui;
+    delete m_project;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,29 +36,45 @@ GPEditor::~GPEditor()
 
 void GPEditor::DoNewProject()
 {
-    qDebug("do new project called");
+    QString _filePath = QFileDialog::getSaveFileName(
+                this,
+                tr("New Project"),
+                tr(""),
+                tr("GP Project Files (*.gpproj)")
+                );
 
-    QString _dirPath = QFileDialog::getExistingDirectory(this,tr("New Project"));
-
-    if( !_dirPath.isEmpty() )
+    if( !_filePath.isEmpty() )
     {
-        qDebug(qPrintable(_dirPath));
+        if( !_filePath.endsWith(tr(".gpproj"),Qt::CaseInsensitive) )
+                _filePath.append(tr(".gpproj"));
+
+        m_project->NewProject(_filePath);
     }
 }
 
 void GPEditor::DoOpenProject()
 {
-    qDebug("do Open Project called");
+    QString _filePath = QFileDialog::getOpenFileName(
+                this,
+                tr("Open Project"),
+                tr(""),
+                tr("GP Project Files (*.gpproj)")
+                );
+
+    if( !_filePath.isEmpty() )
+    {
+        m_project->OpenProject(_filePath);
+    }
 }
 
 void GPEditor::DoCloseProject()
 {
-    qDebug("do Close project called");
+    m_project->CloseProject();
 }
 
 void GPEditor::DoSaveProject()
 {
-    qDebug("do save project called");
+    m_project->SaveProject();
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -102,6 +121,9 @@ bool GPEditor::InitOnLaunch()
     GPGamePreviewer * _gamePreviewer = new GPGamePreviewer(this);
 
     this->setCentralWidget(_gamePreviewer);
+
+    // create an empty project model
+    this->m_project = new GPProject();
 
     return true;
 }
