@@ -2,8 +2,10 @@
 #define GPCONSOLE_H
 
 #include <QDockWidget>
+#include <QTextEdit>
+#include "gpdockwidget.h"
 
-class GPConsole : public QDockWidget
+class GPConsole : public GPDockWidget
 {
     Q_OBJECT
 public:
@@ -12,6 +14,12 @@ public:
 signals:
     
 public slots:
+    void DoError(const QString& error);
+
+    void DoInfo(const QString& info );
+
+protected:
+    QTextEdit * m_textEdit;
     
 };
 

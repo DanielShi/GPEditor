@@ -13,6 +13,7 @@
 #include "gpsceneeditor.h"
 #include "gpgamepreviewer.h"
 #include "gpproject.h"
+#include "gplogmanager.h"
 
 GPEditor::GPEditor(QWidget *parent) :
     QMainWindow(parent),
@@ -126,6 +127,12 @@ bool GPEditor::InitOnLaunch()
     GPConsole * _console = new GPConsole(this);
 
     this->addDockWidget(Qt::BottomDockWidgetArea,_console);
+
+    connect(GPLogManager::getInstance(),SIGNAL(OnError(QString)),_console, SLOT(DoError(QString)));
+
+    connect(GPLogManager::getInstance(),SIGNAL(OnInfo(QString)),_console, SLOT(DoInfo(QString)));
+
+    GPLogManager::getInstance()->Error(tr("Testing Testing"));
 
     // init property pane
     GPPropertyViewer * _propertyViewer = new GPPropertyViewer(this);

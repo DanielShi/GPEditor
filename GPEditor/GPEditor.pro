@@ -11,6 +11,7 @@ TEMPLATE = app
 
 INCLUDEPATH += ./src
 INCLUDEPATH += ./src/model
+INCLUDEPATH += ./src/core
 
 
 SOURCES += main.cpp\
@@ -22,7 +23,8 @@ SOURCES += main.cpp\
     src/gpsceneeditor.cpp \
     src/gpgamepreviewer.cpp \
     src/gpdockwidget.cpp \
-    src/model/gpproject.cpp
+    src/model/gpproject.cpp \
+    src/model/gplogmanager.cpp
 
 HEADERS  += gpeditor.h \
     src/gpprojectviewer.h \
@@ -32,6 +34,8 @@ HEADERS  += gpeditor.h \
     src/gpsceneeditor.h \
     src/gpgamepreviewer.h \
     src/gpdockwidget.h \
-    src/model/gpproject.h
+    src/model/gpproject.h \
+    src/core/gpsingleton.h \
+    src/model/gplogmanager.h
 
 FORMS    += gpeditor.ui

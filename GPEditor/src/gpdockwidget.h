@@ -8,6 +8,7 @@ class GPDockWidget : public QDockWidget
     Q_OBJECT
 public:
     explicit GPDockWidget(QWidget *parent = 0);
+
     explicit GPDockWidget(const QString &name,QWidget *parent = 0);
 
 signals:
