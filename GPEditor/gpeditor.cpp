@@ -1,6 +1,8 @@
 #include <QDebug>
 #include <QFlags>
 #include <QFileDialog>
+#include <QFile>
+#include <QMessageBox>
 #include "gpeditor.h"
 #include "ui_gpeditor.h"
 #include "gpprojectviewer.h"
@@ -48,7 +50,21 @@ void GPEditor::DoNewProject()
         if( !_filePath.endsWith(tr(".gpproj"),Qt::CaseInsensitive) )
                 _filePath.append(tr(".gpproj"));
 
-        m_project->NewProject(_filePath);
+        QFile _file(_filePath);
+
+        if( _file.open(QIODevice::WriteOnly|QIODevice::Text) )
+        {
+            // TODO: put down some config here
+
+            _file.close();
+
+            emit OnProjectOpen(_filePath);
+        }
+        else
+        {
+            QMessageBox::information(this,tr("Info"),
+                                     tr("Failed to create new project!"));
+        }
     }
 }
 
@@ -63,18 +79,16 @@ void GPEditor::DoOpenProject()
 
     if( !_filePath.isEmpty() )
     {
-        m_project->OpenProject(_filePath);
+        emit OnProjectOpen(_filePath);
     }
 }
 
 void GPEditor::DoCloseProject()
 {
-    m_project->CloseProject();
 }
 
 void GPEditor::DoSaveProject()
 {
-    m_project->SaveProject();
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -92,6 +106,8 @@ bool GPEditor::InitOnLaunch()
     GPProjectViewer * _projectViewer = new GPProjectViewer(this);
 
     this->addDockWidget(Qt::LeftDockWidgetArea,_projectViewer);
+
+    connect(this,SIGNAL(OnProjectOpen(QString)),_projectViewer,SLOT(LoadProject(QString)));
 
     // init scene graph viewer
     GPSceneGraphViewer * _sceneViewer = new GPSceneGraphViewer(this);
@@ -123,7 +139,7 @@ bool GPEditor::InitOnLaunch()
     this->setCentralWidget(_gamePreviewer);
 
     // create an empty project model
-    this->m_project = new GPProject();
+    this->m_project = new GPProject(this);
 
     return true;
 }

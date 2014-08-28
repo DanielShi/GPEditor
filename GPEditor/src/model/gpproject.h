@@ -9,14 +9,6 @@ class GPProject : public QObject
 public:
     explicit GPProject(QObject *parent = 0);
 
-    void NewProject(const QString & filePath);
-
-    void OpenProject(const QString & filePath);
-
-    void CloseProject();
-
-    void SaveProject();
-    
 signals:
     
 public slots:

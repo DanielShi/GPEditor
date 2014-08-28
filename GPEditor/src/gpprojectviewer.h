@@ -12,7 +12,8 @@ public:
 signals:
     
 public slots:
-    
+    void    LoadProject( const QString & path );
+
 };
 
 #endif // GPPROJECTVIEWER_H

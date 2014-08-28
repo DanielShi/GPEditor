@@ -26,6 +26,8 @@ public slots:
 
     void DoSaveProject();
 
+signals:
+    void OnProjectOpen( const QString& path );
 
 protected:
     bool InitOnLaunch();
