@@ -33,6 +33,8 @@ signals:
 
 protected:
     bool InitOnLaunch();
+
+    void RegisterWindow(QWidget* window);
     
 private:
     Ui::GPEditor *ui;

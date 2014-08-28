@@ -114,10 +114,14 @@ bool GPEditor::InitOnLaunch()
 
     connect(this,SIGNAL(OnProjectClose()),_projectViewer,SLOT(DoCloseProject()));
 
+    RegisterWindow(_projectViewer);
+
     // init scene graph viewer
     GPSceneGraphViewer * _sceneViewer = new GPSceneGraphViewer(this);
 
     this->addDockWidget(Qt::LeftDockWidgetArea,_sceneViewer);
+
+    RegisterWindow(_sceneViewer);
 
     this->tabifyDockWidget(_projectViewer,_sceneViewer);
 
@@ -132,12 +136,13 @@ bool GPEditor::InitOnLaunch()
 
     connect(GPLogManager::getInstance(),SIGNAL(OnInfo(QString)),_console, SLOT(DoInfo(QString)));
 
-    GPLogManager::getInstance()->Error(tr("Testing Testing"));
-
+    RegisterWindow(_console);
     // init property pane
     GPPropertyViewer * _propertyViewer = new GPPropertyViewer(this);
 
     this->addDockWidget(Qt::RightDockWidgetArea,_propertyViewer);
+
+    RegisterWindow(_propertyViewer);
 
     // init central content widget
     QTabWidget * _centralTabWidget = new QTabWidget(this);
@@ -149,13 +154,34 @@ bool GPEditor::InitOnLaunch()
 
     _centralTabWidget->addTab(_sceneEditor,_sceneEditor->windowTitle());
 
+    RegisterWindow(_sceneEditor);
+
     // init game previewer
     GPGamePreviewer * _gamePreviewer = new GPGamePreviewer(_centralTabWidget);
 
     _centralTabWidget->addTab(_gamePreviewer,_gamePreviewer->windowTitle());
 
+    RegisterWindow(_gamePreviewer);
+
     // create an empty project model
     this->m_project = new GPProject(this);
 
     return true;
+}
+
+void GPEditor::RegisterWindow(QWidget *window)
+{
+    QMenu * _menuWindows = ui->menu_Window;
+
+    QAction * _action = new QAction( window->windowTitle(), this );
+
+    _action->setCheckable(true);
+
+    _action->setChecked(true);
+
+    _menuWindows->addAction(_action);
+
+    connect(_action,SIGNAL(toggled(bool)),window,SLOT(setVisible(bool)));
+
+
 }
