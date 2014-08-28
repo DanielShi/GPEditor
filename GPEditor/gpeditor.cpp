@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QMessageBox>
+#include <QTabWidget>
 #include "gpeditor.h"
 #include "ui_gpeditor.h"
 #include "gpprojectviewer.h"
@@ -128,15 +129,20 @@ bool GPEditor::InitOnLaunch()
 
     this->addDockWidget(Qt::RightDockWidgetArea,_propertyViewer);
 
-    // init scene editor
-    GPSceneEditor * _sceneEditor = new GPSceneEditor(this);
+    // init central content widget
+    QTabWidget * _centralTabWidget = new QTabWidget(this);
 
-    this->setCentralWidget(_sceneEditor);
+    this->setCentralWidget(_centralTabWidget);
+
+    // init scene editor
+    GPSceneEditor * _sceneEditor = new GPSceneEditor(_centralTabWidget);
+
+    _centralTabWidget->addTab(_sceneEditor,_sceneEditor->windowTitle());
 
     // init game previewer
-    GPGamePreviewer * _gamePreviewer = new GPGamePreviewer(this);
+    GPGamePreviewer * _gamePreviewer = new GPGamePreviewer(_centralTabWidget);
 
-    this->setCentralWidget(_gamePreviewer);
+    _centralTabWidget->addTab(_gamePreviewer,_gamePreviewer->windowTitle());
 
     // create an empty project model
     this->m_project = new GPProject(this);
