@@ -8,13 +8,17 @@
 #include "gpprojectviewer.h"
 
 GPProjectViewer::GPProjectViewer(QWidget *parent) :
-    GPDockWidget("Project",parent)
+    GPDockWidget("Project",parent),
+    m_treeView(NULL)
 {
 
 }
 
-void GPProjectViewer::LoadProject(const QString &path)
+void GPProjectViewer::DoLoadProject(const QString &path)
 {
+    // close current project if have
+    DoCloseProject();
+
     QWidget * _dockContent = this->widget();
 
     QLayout * _layout = _dockContent->layout();
@@ -29,23 +33,34 @@ void GPProjectViewer::LoadProject(const QString &path)
 
     _model->setRootPath(_dirPath);
 
-    QTreeView * _view = new QTreeView();
+    m_treeView = new QTreeView();
 
-    _view->setModel(_model);
+    m_treeView->setModel(_model);
 
-    _view->setRootIndex(_model->index(_dirPath));
+    m_treeView->setRootIndex(_model->index(_dirPath));
 
-    _view->setHeaderHidden(true);
+    m_treeView->setHeaderHidden(true);
 
     // only display the file name
 
-    for( int i = 1 ; i < _view->header()->count() ; i++ )
+    for( int i = 1 ; i < m_treeView->header()->count() ; i++ )
     {
-        _view->setColumnHidden(i,true);
+        m_treeView->setColumnHidden(i,true);
     }
 
-    _layout->addWidget(_view);
+    _layout->addWidget(m_treeView);
+}
 
-    this->repaint();
+void GPProjectViewer::DoCloseProject()
+{
+    if( m_treeView )
+    {
+        QFileSystemModel * _model = qobject_cast<QFileSystemModel*>(m_treeView->model());
 
+        if( _model )
+            delete _model;
+
+        delete m_treeView;
+        m_treeView = NULL;
+    }
 }

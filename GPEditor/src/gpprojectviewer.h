@@ -1,7 +1,8 @@
 #ifndef GPPROJECTVIEWER_H
 #define GPPROJECTVIEWER_H
-
 #include "gpdockwidget.h"
+
+class QTreeView;
 
 class GPProjectViewer : public GPDockWidget
 {
@@ -12,7 +13,12 @@ public:
 signals:
     
 public slots:
-    void    LoadProject( const QString & path );
+    void    DoLoadProject( const QString & path );
+
+    void    DoCloseProject();
+
+protected:
+    QTreeView * m_treeView;
 
 };
 

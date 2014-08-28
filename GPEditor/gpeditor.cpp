@@ -86,6 +86,7 @@ void GPEditor::DoOpenProject()
 
 void GPEditor::DoCloseProject()
 {
+    emit OnProjectClose();
 }
 
 void GPEditor::DoSaveProject()
@@ -108,7 +109,9 @@ bool GPEditor::InitOnLaunch()
 
     this->addDockWidget(Qt::LeftDockWidgetArea,_projectViewer);
 
-    connect(this,SIGNAL(OnProjectOpen(QString)),_projectViewer,SLOT(LoadProject(QString)));
+    connect(this,SIGNAL(OnProjectOpen(QString)),_projectViewer,SLOT(DoLoadProject(QString)));
+
+    connect(this,SIGNAL(OnProjectClose()),_projectViewer,SLOT(DoCloseProject()));
 
     // init scene graph viewer
     GPSceneGraphViewer * _sceneViewer = new GPSceneGraphViewer(this);

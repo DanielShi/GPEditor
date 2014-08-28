@@ -29,6 +29,8 @@ public slots:
 signals:
     void OnProjectOpen( const QString& path );
 
+    void OnProjectClose();
+
 protected:
     bool InitOnLaunch();
     
