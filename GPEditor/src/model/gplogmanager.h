@@ -10,13 +10,6 @@ class GPLogManager : public QObject, public GPSingleton<GPLogManager>
 public:
     explicit GPLogManager(QObject * parent=NULL);
 
-    //inline static GPLogManager * getInstance()
-    //{
-    //    if( sInstance == NULL )
-    //        sInstance = new GPLogManager();
-    //    return sInstance;
-    //}
-
     void Error(const QString& error );
 
     void Info(const QString& info );
@@ -27,7 +20,6 @@ signals:
     void OnInfo( const QString& );
 
 protected:
-    //static GPLogManager* sInstance;
 };
 
 #endif // GPLOGMANAGER_H

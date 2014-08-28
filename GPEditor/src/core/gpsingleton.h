@@ -18,8 +18,6 @@ public:
 protected:
     explicit GPSingleton(){}
 
-    explicit GPSingleton(const GPSingleton& instance){}
-
     virtual ~GPSingleton(){}
 private:
     static T*  m_instance;

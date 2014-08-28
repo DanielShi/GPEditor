@@ -1,8 +1,6 @@
 #include <QDebug>
 #include "gplogmanager.h"
 
-//GPLogManager* GPLogManager::sInstance = NULL;
-
 GPLogManager::GPLogManager(QObject*parent) :
     QObject(parent)
 {
