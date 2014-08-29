@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 TARGET = GPEditor
 TEMPLATE = app
@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     src/gpgamepreviewer.cpp \
     src/gpdockwidget.cpp \
     src/model/gpproject.cpp \
-    src/model/gplogmanager.cpp
+    src/model/gplogmanager.cpp \
+    src/widget/gpgamewidget.cpp
 
 HEADERS  += gpeditor.h \
     src/gpprojectviewer.h \
@@ -36,9 +37,17 @@ HEADERS  += gpeditor.h \
     src/gpdockwidget.h \
     src/model/gpproject.h \
     src/core/gpsingleton.h \
-    src/model/gplogmanager.h
+    src/model/gplogmanager.h \
+    src/widget/gpgamewidget.h
 
 FORMS    += ui/gpeditor.ui
 
 RESOURCES += \
     res/gpeditor.qrc
+
+unix:!macx:!symbian: LIBS += -L$$PWD/extern/gameplay/libs/ -lgameplay
+
+INCLUDEPATH += $$PWD/extern/gameplay/libs
+DEPENDPATH += $$PWD/extern/gameplay/libs
+
+unix:!macx:!symbian: PRE_TARGETDEPS += $$PWD/extern/gameplay/libs/libgameplay.a
