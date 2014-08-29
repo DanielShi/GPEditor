@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/splash">
+        <file>logo_powered_black.png</file>
+    </qresource>
+</RCC>

@@ -38,4 +38,7 @@ HEADERS  += gpeditor.h \
     src/core/gpsingleton.h \
     src/model/gplogmanager.h
 
-FORMS    += gpeditor.ui
+FORMS    += ui/gpeditor.ui
+
+RESOURCES += \
+    res/gpeditor.qrc

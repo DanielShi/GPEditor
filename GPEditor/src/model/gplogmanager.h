@@ -20,6 +20,7 @@ signals:
     void OnInfo( const QString& );
 
 protected:
+    Q_DISABLE_COPY(GPLogManager)
 };
 
 #endif // GPLOGMANAGER_H
